@@ -13,7 +13,7 @@ function Details() {
 	const [screenshots, setScreenshots] = useState([]);
 	useEffect(() => {
 		console.log(query.get("pkg"));
-		fetch(`http://localhost:8181/getProducts/${query.get("pkg")}`, {
+		fetch(`/getProducts/${query.get("pkg")}`, {
 			method: "get",
 			headers: {
 				Connection: "keep-alive",

@@ -10,7 +10,7 @@ function Home() {
 	let scrapeBtnRef = useRef();
 	useEffect(() => {
 		if (!loading) setLoading(true);
-		fetch("http://localhost:8181/getProducts", {
+		fetch("/getProducts", {
 			method: "get",
 			headers: {
 				Connection: "keep-alive",
