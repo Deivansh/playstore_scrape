@@ -1,12 +1,12 @@
 import makeProductsDb from "./products-db.js";
 import mongoose from "mongoose";
 import Product from "../models/product.js";
-import { url, dbName } from "../config/keys";
+import keys from "../config/prod.js";
 
 mongoose.connect(
-	url,
+	keys.url,
 	{
-		dbName: dbName,
+		dbName: keys.dbName,
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
 	},

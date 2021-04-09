@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import path from "path";
 import makeCallback from "./express-callback/index.js";
 import {
 	scrapeProductsController,
@@ -20,7 +21,6 @@ app.get("/getProducts/:package_id", makeCallback(getProductsController));
 
 if (process.env.NODE_ENV == "production") {
 	app.use(express.static("client/build"));
-	import path from "path";
 	app.get("*", (req, res) => {
 		res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
 	});
