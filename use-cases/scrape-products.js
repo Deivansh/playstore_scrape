@@ -5,7 +5,7 @@ export default function makeScrapeProducts({ productsDb, puppeteer, pqueue }) {
 
 	async function scrapeAllProducts(cb) {
 		const queue = new pqueue({
-			concurrency: 5,
+			concurrency: 10,
 		});
 		var results = [];
 		let scrape_url =

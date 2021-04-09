@@ -1,7 +1,7 @@
 import makeProductsDb from "./products-db.js";
 import mongoose from "mongoose";
 import Product from "../models/product.js";
-import keys from "../config/prod.js";
+import keys from "../config/dev.js";
 
 mongoose.connect(
 	keys.url,
