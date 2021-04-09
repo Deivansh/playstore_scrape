@@ -29,7 +29,7 @@ function Home() {
 	const scrapeProducts = async (e) => {
 		await scrapeBtnRef.current.classList.add("disabled");
 		setScraping(true);
-		fetch("http://localhost:8181/scrapeProducts", {
+		fetch("/scrapeProducts", {
 			method: "get",
 			headers: {
 				Connection: "keep-alive",
