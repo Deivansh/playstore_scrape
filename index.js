@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
+import timeout from "connect-timeout";
 import path from "path";
 import makeCallback from "./express-callback/index.js";
 import {
