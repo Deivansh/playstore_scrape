@@ -9,6 +9,7 @@ import {
 } from "./controllers/index.js";
 
 const app = express();
+app.use(timeout(180000));
 const port = process.env.PORT || 8181;
 
 app.use(cors());
@@ -27,7 +28,7 @@ if (process.env.NODE_ENV == "production") {
 }
 
 app.listen(port, () => {
-	console.log(`App is listening on 8181`);
+	console.log(`App is listening on ${port}`);
 });
 
 export default app;
