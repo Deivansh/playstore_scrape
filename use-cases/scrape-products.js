@@ -10,7 +10,9 @@ export default function makeScrapeProducts({ productsDb, puppeteer, pqueue }) {
 		var results = [];
 		let scrape_url =
 			"https://play.google.com/store/apps/collection/topselling_free";
-		let browser = await puppeteer.launch();
+		let browser = await puppeteer.launch({
+			args: ["--no-sandbox", "--disable-setuid-sandbox"],
+		});
 		let page = await browser.newPage();
 		await page.goto(scrape_url, { waitUntil: "load" });
 		let data = await page.evaluate(async () => {
