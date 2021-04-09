@@ -1,0 +1,36 @@
+.homeDetailsCard {
+	width: 90%;
+	margin: 2em auto;
+}
+
+.app-img {
+	height: 30%;
+	border-radius: 5em;
+}
+
+.metaData {
+	display: flex;
+}
+
+.appGenre {
+	margin: 0 5em;
+}
+
+.screenshotDiv {
+	display: flex;
+	height: max-content;
+	/* flex-flow: row wrap; */
+	overflow-x: auto;
+}
+
+.screenshot {
+	margin: 1em;
+}
+
+pre {
+	white-space: pre-wrap; /* Since CSS 2.1 */
+	white-space: -moz-pre-wrap; /* Mozilla, since 1999 */
+	white-space: -pre-wrap; /* Opera 4-6 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	word-wrap: break-word; /* Internet Explorer 5.5+ */
+}
