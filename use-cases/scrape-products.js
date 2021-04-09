@@ -1,11 +1,28 @@
-export default function makeScrapeProducts({ productsDb, puppeteer, pqueue }) {
+export default function makeScrapeProducts({
+	productsDb,
+	scrapeStatusDb,
+	puppeteer,
+	pqueue,
+}) {
 	return Object.freeze({
 		scrapeAllProducts,
+		findScrapeStatus,
 	});
 
-	async function scrapeAllProducts(cb) {
+	async function scrapeAllProducts() {
+		startScraping();
+		const status = await scrapeStatusDb.updateStatus("Started");
+		return status;
+	}
+
+	async function findScrapeStatus() {
+		const status = await scrapeStatusDb.findStatus();
+		return status;
+	}
+
+	async function startScraping() {
 		const queue = new pqueue({
-			concurrency: 10,
+			concurrency: 5,
 		});
 		var results = [];
 		let scrape_url =
@@ -23,19 +40,18 @@ export default function makeScrapeProducts({ productsDb, puppeteer, pqueue }) {
 		await page.close();
 		console.time("bringinfo");
 		for (let x of data) {
-			queue.add(
-				async () =>
-					await getAppInformation(browser, x, results, (len) => cb(len))
-			);
+			queue.add(async () => await getAppInformation(browser, x, results));
 		}
 		await queue.onIdle();
 		console.timeEnd("bringinfo");
 		await browser.close();
 		const products = await productsDb.insertAll(results);
-		return products;
+		if (products) {
+			const status = await scrapeStatusDb.updateStatus("Completed");
+		}
 	}
 
-	async function getAppInformation(browser, url, results, cb) {
+	async function getAppInformation(browser, url, results) {
 		let page = await browser.newPage();
 		await page.goto(url, { waitUntil: "load" });
 		let data = await page.evaluate(async () => {
@@ -58,9 +74,8 @@ export default function makeScrapeProducts({ productsDb, puppeteer, pqueue }) {
 		});
 		data["package_id"] = url.split("=")[1];
 		await page.close();
-		// console.log(data);
 		results.push(data);
-		cb(results.length);
+		console.log(results.length);
 		return;
 	}
 }

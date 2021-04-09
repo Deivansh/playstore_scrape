@@ -26,6 +26,7 @@ function Home() {
 				console.log(err);
 			});
 	}, []);
+	var myinterval;
 	const scrapeProducts = async (e) => {
 		await scrapeBtnRef.current.classList.add("disabled");
 		setScraping(true);
@@ -37,9 +38,10 @@ function Home() {
 		})
 			.then((response) => response.json())
 			.then((result) => {
-				setData(result);
-				setScraping(false);
-				scrapeBtnRef.current.classList.remove("disabled");
+				if (result.status === "Started") {
+					myinterval = setInterval(checkScrapeStatus, 10000);
+				}
+				// setData(result);
 			})
 			.catch((err) => {
 				setScraping(false);
@@ -47,6 +49,45 @@ function Home() {
 				console.log(err);
 			});
 	};
+
+	async function checkScrapeStatus() {
+		// console.log("calling scrape status");
+		fetch("/getScrapeStatus", {
+			method: "get",
+			headers: {
+				Connection: "keep-alive",
+			},
+		})
+			.then((response) => response.json())
+			.then((result) => {
+				// console.log(result);
+				if (result.status === "Completed") {
+					clearInterval(myinterval);
+					fetch("/getProducts", {
+						method: "get",
+						headers: {
+							Connection: "keep-alive",
+						},
+					})
+						.then((response) => response.json())
+						.then((result) => {
+							setData(result);
+							setScraping(false);
+							scrapeBtnRef.current.classList.remove("disabled");
+						})
+						.catch((err) => {
+							setScraping(false);
+							scrapeBtnRef.current.classList.remove("disabled");
+							console.log(err);
+						});
+				}
+			})
+			.catch((err) => {
+				clearInterval(myinterval);
+				setScraping(false);
+				scrapeBtnRef.current.classList.remove("disabled");
+			});
+	}
 	return (
 		<div>
 			<div className="scrape-button-div">

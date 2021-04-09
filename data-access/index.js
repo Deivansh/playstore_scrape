@@ -1,7 +1,9 @@
 import makeProductsDb from "./products-db.js";
+import makeScrapeStatusDb from "./scrapestatus-db.js";
 import mongoose from "mongoose";
 import Product from "../models/product.js";
-import keys from "../config/dev.js";
+import ScrapeStatus from "../models/scrape_status.js";
+import keys from "../config/prod.js";
 
 mongoose.connect(
 	keys.url,
@@ -27,4 +29,8 @@ export async function makeDb() {
 }
 
 const productsDb = makeProductsDb({ Product });
-export default productsDb;
+const scrapeStatusDb = makeScrapeStatusDb({ ScrapeStatus });
+
+// export { scrapeProductsController, getProductsController };
+
+export { productsDb, scrapeStatusDb };

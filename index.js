@@ -20,6 +20,7 @@ app.use(bodyParser.json());
 app.get("/scrapeProducts", makeCallback(scrapeProductsController));
 app.get("/getProducts", makeCallback(getProductsController));
 app.get("/getProducts/:package_id", makeCallback(getProductsController));
+app.get("/getScrapeStatus", makeCallback(scrapeProductsController));
 
 if (process.env.NODE_ENV == "production") {
 	app.use(express.static("client/build"));

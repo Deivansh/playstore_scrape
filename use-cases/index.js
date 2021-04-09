@@ -1,11 +1,12 @@
 import makeScrapeProducts from "./scrape-products.js";
 import makeGetProducts from "./get-products.js";
-import productsDb from "../data-access/index.js";
+import { productsDb, scrapeStatusDb } from "../data-access/index.js";
 import puppeteer from "puppeteer";
 import pqueue from "p-queue";
 
 const scrapeProductsUseCase = makeScrapeProducts({
 	productsDb,
+	scrapeStatusDb,
 	puppeteer,
 	pqueue,
 });

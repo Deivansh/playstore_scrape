@@ -4,16 +4,21 @@ export default function makeScrapeProducts({ scrapeProductsUseCase }) {
 			"Content-Type": "application/json",
 		};
 		try {
-			var scrapeProductsAck = await scrapeProductsUseCase.scrapeAllProducts(
-				(status) => {
-					console.log(status);
-				}
-			);
-			return {
-				headers,
-				statusCode: 200,
-				body: scrapeProductsAck,
-			};
+			if (httpRequest.path == "/getScrapeStatus") {
+				var scrapeStatus = await scrapeProductsUseCase.findScrapeStatus();
+				return {
+					headers,
+					statusCode: 200,
+					body: scrapeStatus,
+				};
+			} else {
+				var scrapeProductsAck = await scrapeProductsUseCase.scrapeAllProducts();
+				return {
+					headers,
+					statusCode: 200,
+					body: scrapeProductsAck,
+				};
+			}
 		} catch (e) {
 			console.log(`scrapeProduct Error: ${e}`);
 			return {
